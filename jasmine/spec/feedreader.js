@@ -3,7 +3,7 @@
  * This is the spec file that Jasmine will read and contains
  * all of the tests that will be run against your application.
  */
-let appJs =
+
 /* We're placing all of our tests within the $() function,
  * since some of these tests may require DOM elements. We want
  * to ensure they don't run until the DOM is ready.
@@ -88,22 +88,37 @@ $(function () {
          * Remember, loadFeed() is asynchronous so this test will require
          * the use of Jasmine's beforeEach and asynchronous done() function.
          */
-
         beforeEach(function (done) {
-            setTimeout(done, 1000)
+            loadFeed(0, done)
         });
 
-        it('ensures that there is at lease an entry', function (done) {
+        it('ensures that there is at least an entry', function (done) {
             expect(document.getElementsByClassName("entry-link").length).toBeGreaterThan(0);
             done();
         });
     });
 
+    describe('New Feed Selection', function(){
+        /* A test that ensures when a new feed is loaded
+         * by the loadFeed function that the content actually changes.
+         * Remember, loadFeed() is asynchronous.
+         */
+        let currentContent = {};
+        let nextContent = {};
 
-    /* TODO: Write a new test suite named "New Feed Selection" */
+        beforeEach(async function (done) {
+            loadFeed(0,function () {
+                loadFeed(2, done);
+            });
 
-    /* TODO: Write a test that ensures when a new feed is loaded
-     * by the loadFeed function that the content actually changes.
-     * Remember, loadFeed() is asynchronous.
-     */
+        });
+
+        it('ensures new feed changes content', function (done) {
+            nextContent = document.getElementsByClassName('feed')[0].innerHTML;
+            expect(nextContent).not.toBe(currentContent);
+            done();
+        });
+    });
+
+
 });
