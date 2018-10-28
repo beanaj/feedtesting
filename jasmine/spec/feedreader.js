@@ -104,17 +104,18 @@ $(function () {
          * Remember, loadFeed() is asynchronous.
          */
         let currentContent = {};
-        let nextContent = {};
 
-        beforeEach(async function (done) {
+        beforeEach( function (done) {
             loadFeed(0,function () {
+                currentContent = document.getElementsByClassName('feed')[0].innerHTML;
                 loadFeed(2, done);
             });
 
         });
 
         it('ensures new feed changes content', function (done) {
-            nextContent = document.getElementsByClassName('feed')[0].innerHTML;
+            let nextContent = document.getElementsByClassName('feed')[0].innerHTML;
+            //compare the feed content
             expect(nextContent).not.toBe(currentContent);
             done();
         });
