@@ -60,7 +60,7 @@ $(function () {
          */
         it('starts with menu hidden', function () {
             //Check to see that the starting class is a hidden menu
-            expect(document.body.classList.contains('menu-hidden')).toBeTruthy();
+            expect(document.body.classList.contains('menu-hidden')).toBe(true);
         });
 
         /* A test that ensures the menu changes
@@ -73,11 +73,11 @@ $(function () {
             //click on the menu
             menu.click();
             //ensure the menu is not hidden
-            expect(document.body.className).toBe("");
+            expect(document.body.classList.contains('menu-hidden')).toBe(false);
             //click on it again
             menu.click();
             //ensure the menu is hidden
-            expect(document.body.classList.contains('menu-hidden')).toBeTruthy();
+            expect(document.body.classList.contains('menu-hidden')).toBe(true);
         });
     });
 
@@ -93,7 +93,13 @@ $(function () {
         });
 
         it('ensures that there is at least an entry', function (done) {
-            expect(document.getElementsByClassName("entry-link").length).toBeGreaterThan(0);
+            //get the feed for the RSS entries
+            let feed = document.getElementsByClassName("feed")[0];
+            //within the feed search for the first entry links
+            let entrylink = feed.getElementsByClassName("entry-link")[0];
+            //within the entry link search for the actual entry
+            let entry = entrylink.getElementsByClassName("entry");
+            expect(entry.length).toBeGreaterThan(0);
             done();
         });
     });
